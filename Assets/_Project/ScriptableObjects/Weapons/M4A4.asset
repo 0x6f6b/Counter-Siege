@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012220c9d82dff741a0e265c4de76234, type: 3}
+  m_Name: M4A4
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponData
+  weaponName: M4A4
+  weaponType: 2
+  slot: 2
+  cost: 3100
+  killReward: 300
+  teamRestriction: 2
+  damage: 33
+  fireRate: 666
+  isAutomatic: 1
+  magazineSize: 30
+  reserveAmmo: 90
+  reloadTime: 3.1
+  range: 200
+  armorPenetration: 0.77
+  moveSpeedMultiplier: 0.88
+  drawTime: 0.5
+  spreadBase: 0.04
+  inaccuracyStand: 0.25
+  inaccuracyMove: 2
+  inaccuracyCrouch: 0.15
+  inaccuracyCrouchMove: 1.2
+  inaccuracyJump: 7
+  inaccuracyFire: 2.5
+  inaccuracyRecoveryTime: 0.33
+  inaccuracyScopedStand: -1
+  inaccuracyScopedMove: -1
+  scopeZoomFOV: 0
+  scopeSecondZoomFOV: 0
+  viewModelPrefab: {fileID: 5103033450462227266, guid: c530a6e5ccffc054596dd83e135d5cce, type: 3}
+  viewModelColor: {r: 0.3, g: 0.35, b: 0.4, a: 1}
+  fireSound: {fileID: 8300000, guid: da10c044640645246867d92192b2001d, type: 3}
+  reloadSound: {fileID: 8300000, guid: 569d90ad3b8f4a34ea24aff308548efc, type: 3}
+  equipSound: {fileID: 8300000, guid: a7d938df57c267448a0163981496c2ad, type: 3}
+  impactSounds: []

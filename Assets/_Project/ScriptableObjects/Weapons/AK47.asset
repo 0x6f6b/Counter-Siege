@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012220c9d82dff741a0e265c4de76234, type: 3}
+  m_Name: AK47
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponData
+  weaponName: AK-47
+  weaponType: 2
+  slot: 2
+  cost: 2700
+  killReward: 300
+  teamRestriction: 1
+  damage: 36
+  fireRate: 600
+  isAutomatic: 1
+  magazineSize: 30
+  reserveAmmo: 90
+  reloadTime: 2.5
+  range: 200
+  armorPenetration: 0.77
+  moveSpeedMultiplier: 0.88
+  drawTime: 0.5
+  spreadBase: 0.04
+  inaccuracyStand: 0.25
+  inaccuracyMove: 2
+  inaccuracyCrouch: 0.15
+  inaccuracyCrouchMove: 1.2
+  inaccuracyJump: 7
+  inaccuracyFire: 3
+  inaccuracyRecoveryTime: 0.379
+  inaccuracyScopedStand: -1
+  inaccuracyScopedMove: -1
+  scopeZoomFOV: 0
+  scopeSecondZoomFOV: 0
+  viewModelPrefab: {fileID: 5103735666902311422, guid: 6e2acbeba9ef4334dbe48dc8b9e09f60, type: 3}
+  viewModelColor: {r: 0.5, g: 0.35, b: 0.15, a: 1}
+  fireSound: {fileID: 8300000, guid: 7c282e7dbf91efc4b8075ec99e7798a9, type: 3}
+  reloadSound: {fileID: 8300000, guid: 5c5f1532f9670a6478fcdc3c258f5623, type: 3}
+  equipSound: {fileID: 8300000, guid: 3a713371baf6b9d40b3007b1da5541df, type: 3}
+  impactSounds: []

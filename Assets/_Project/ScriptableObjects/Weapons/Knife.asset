@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012220c9d82dff741a0e265c4de76234, type: 3}
+  m_Name: Knife
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponData
+  weaponName: Knife
+  weaponType: 0
+  slot: 0
+  cost: 0
+  killReward: 300
+  teamRestriction: 0
+  damage: 40
+  fireRate: 90
+  isAutomatic: 0
+  magazineSize: 0
+  reserveAmmo: 0
+  reloadTime: 0
+  range: 200
+  armorPenetration: 0.5
+  moveSpeedMultiplier: 1
+  drawTime: 0.5
+  spreadBase: 0
+  inaccuracyStand: 0
+  inaccuracyMove: 0
+  inaccuracyCrouch: 0
+  inaccuracyCrouchMove: 0
+  inaccuracyJump: 0
+  inaccuracyFire: 0
+  inaccuracyRecoveryTime: 0.1
+  inaccuracyScopedStand: -1
+  inaccuracyScopedMove: -1
+  scopeZoomFOV: 0
+  scopeSecondZoomFOV: 0
+  viewModelPrefab: {fileID: 0}
+  viewModelColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fireSound: {fileID: 8300000, guid: f02727c389ab84b46978cfb99a2fcc00, type: 3}
+  reloadSound: {fileID: 0}
+  equipSound: {fileID: 8300000, guid: 8d438337e4a26e64582b80e1bd3e141d, type: 3}
+  impactSounds:
+  - {fileID: 8300000, guid: dfbf6e80edcd02c4782c78ff1d3c45b8, type: 3}
+  - {fileID: 8300000, guid: e4a03d250f719d44a98ce87970e2aa76, type: 3}

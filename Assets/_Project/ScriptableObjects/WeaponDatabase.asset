@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf88624d2a2a6c42947bcdee6d61a35, type: 3}
+  m_Name: WeaponDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponDatabase
+  allWeapons:
+  - {fileID: 11400000, guid: e3f9fbdd9586b17488ae7020c9d20336, type: 2}
+  - {fileID: 11400000, guid: c97a2ade8210155419c75fd980d412fd, type: 2}
+  - {fileID: 11400000, guid: 987561001f1d1194386371653a2495c0, type: 2}
+  - {fileID: 11400000, guid: 6a8e3f5a550ff124db677b90ba90d83c, type: 2}
+  - {fileID: 11400000, guid: aca08f4e6610d524c9540b109b684c0a, type: 2}
+  - {fileID: 11400000, guid: 0449c403f0fd461438fcfcf35ae7421e, type: 2}

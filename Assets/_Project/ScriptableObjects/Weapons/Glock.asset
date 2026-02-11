@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012220c9d82dff741a0e265c4de76234, type: 3}
+  m_Name: Glock
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponData
+  weaponName: Glock
+  weaponType: 1
+  slot: 1
+  cost: 200
+  killReward: 300
+  teamRestriction: 1
+  damage: 28
+  fireRate: 400
+  isAutomatic: 0
+  magazineSize: 20
+  reserveAmmo: 120
+  reloadTime: 2.2
+  range: 200
+  armorPenetration: 0.5
+  moveSpeedMultiplier: 1
+  drawTime: 0.5
+  spreadBase: 0.02
+  inaccuracyStand: 0.5
+  inaccuracyMove: 1.5
+  inaccuracyCrouch: 0.3
+  inaccuracyCrouchMove: 0.9
+  inaccuracyJump: 5
+  inaccuracyFire: 2.5
+  inaccuracyRecoveryTime: 0.35
+  inaccuracyScopedStand: -1
+  inaccuracyScopedMove: -1
+  scopeZoomFOV: 0
+  scopeSecondZoomFOV: 0
+  viewModelPrefab: {fileID: 1587685352543467281, guid: 03474d3bbbd0a234082ec7542ac96534, type: 3}
+  viewModelColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+  fireSound: {fileID: 8300000, guid: 01cdb6339961a324a882a6b5a87c28e2, type: 3}
+  reloadSound: {fileID: 8300000, guid: 0d8f028076d45fc4c95df5853ceb93ea, type: 3}
+  equipSound: {fileID: 8300000, guid: 15ce9579181eb1a47b24b0b6415e0e89, type: 3}
+  impactSounds: []

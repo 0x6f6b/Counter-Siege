@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012220c9d82dff741a0e265c4de76234, type: 3}
+  m_Name: AWP
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponData
+  weaponName: AWP
+  weaponType: 3
+  slot: 2
+  cost: 4750
+  killReward: 100
+  teamRestriction: 0
+  damage: 115
+  fireRate: 41
+  isAutomatic: 0
+  magazineSize: 10
+  reserveAmmo: 30
+  reloadTime: 3.7
+  range: 300
+  armorPenetration: 0.5
+  moveSpeedMultiplier: 0.82
+  drawTime: 0.5
+  spreadBase: 0
+  inaccuracyStand: 3
+  inaccuracyMove: 6
+  inaccuracyCrouch: 2
+  inaccuracyCrouchMove: 5
+  inaccuracyJump: 12
+  inaccuracyFire: 4
+  inaccuracyRecoveryTime: 0.8
+  inaccuracyScopedStand: 0
+  inaccuracyScopedMove: 3
+  scopeZoomFOV: 15
+  scopeSecondZoomFOV: 8
+  viewModelPrefab: {fileID: 8882513987561646034, guid: 0ef36a70a19ea0a4aa8c3aa30a9e1c16, type: 3}
+  viewModelColor: {r: 0.2, g: 0.35, b: 0.2, a: 1}
+  fireSound: {fileID: 8300000, guid: a121cb1223b414f4b8a7f83dd550587b, type: 3}
+  reloadSound: {fileID: 8300000, guid: b3adfb8e895784e499d064ad6f4673bd, type: 3}
+  equipSound: {fileID: 8300000, guid: 3f8b9d9bc35cfb04cbd7c2f6f00116ce, type: 3}
+  impactSounds: []
