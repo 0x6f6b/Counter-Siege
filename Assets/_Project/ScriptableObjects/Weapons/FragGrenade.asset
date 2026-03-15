@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012220c9d82dff741a0e265c4de76234, type: 3}
+  m_Name: FragGrenade
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.WeaponData
+  weaponName: Frag Grenade
+  weaponType: 4
+  slot: 3
+  cost: 300
+  killReward: 300
+  teamRestriction: 0
+  damage: 110
+  fireRate: 60
+  isAutomatic: 0
+  magazineSize: 1
+  reserveAmmo: 0
+  reloadTime: 0
+  range: 0
+  armorPenetration: 0.5
+  moveSpeedMultiplier: 1
+  drawTime: 0.5
+  spreadBase: 0.04
+  inaccuracyStand: 0.25
+  inaccuracyMove: 2
+  inaccuracyCrouch: 0.15
+  inaccuracyCrouchMove: 1.2
+  inaccuracyJump: 7
+  inaccuracyFire: 3
+  inaccuracyRecoveryTime: 0.35
+  inaccuracyScopedStand: -1
+  inaccuracyScopedMove: -1
+  scopeZoomFOV: 0
+  scopeSecondZoomFOV: 0
+  viewModelPrefab: {fileID: 6153600466202228102, guid: cd693687f301c9241af8fa015f91f4df, type: 3}
+  viewModelColor: {r: 0.25, g: 0.3, b: 0.18, a: 1}
+  fireSound: {fileID: 8300000, guid: 8d9deb630134c3049903b46fde41c3c6, type: 3}
+  reloadSound: {fileID: 0}
+  equipSound: {fileID: 0}
+  impactSounds: []
