@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CounterSiege
 {
-    public class PlayerHealth : MonoBehaviour
+    public class PlayerHealth : MonoBehaviour, IDamageable
     {
         public int maxHealth = 100;
         public int maxArmor = 100;
@@ -25,7 +25,7 @@ namespace CounterSiege
         {
             currentHealth = maxHealth;
             isDead = false;
-            EventBus.OnHealthChanged?.Invoke(currentHealth, currentArmor);
+            EventBus.OnHealthChanged?.Invoke(gameObject, currentHealth, currentArmor);
         }
 
         public void TakeDamage(DamageInfo info)
@@ -49,14 +49,14 @@ namespace CounterSiege
                 finalDamage = rawDamage - absorbed;
             }
 
-            currentHealth -= Mathf.CeilToInt(finalDamage);
-            EventBus.OnHealthChanged?.Invoke(currentHealth, currentArmor);
+            currentHealth = Mathf.Max(0, currentHealth - Mathf.CeilToInt(finalDamage));
+            EventBus.OnHealthChanged?.Invoke(gameObject, currentHealth, currentArmor);
+
+            var look = GetComponent<PlayerLook>();
+            if (look != null) look.AddHitKick(Mathf.Clamp01(finalDamage / 50f));
 
             if (currentHealth <= 0)
-            {
-                currentHealth = 0;
                 Die(info);
-            }
         }
 
         float GetHitZoneMultiplier(HitZone zone)
@@ -101,7 +101,7 @@ namespace CounterSiege
         {
             currentArmor = maxArmor;
             if (withHelmet) hasHelmet = true;
-            EventBus.OnHealthChanged?.Invoke(currentHealth, currentArmor);
+            EventBus.OnHealthChanged?.Invoke(gameObject, currentHealth, currentArmor);
         }
     }
 }

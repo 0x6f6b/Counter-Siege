@@ -89,6 +89,11 @@ namespace CounterSiege
             Transform cam = GetCameraTransform();
             if (cam == null) return;
 
+            // Shoot origin: player uses camera position; bots fire from eye height (not feet)
+            bool ownerIsBot = owner == null || owner.GetComponent<PlayerLook>() == null;
+            Vector3 origin = ownerIsBot ? cam.position + Vector3.up * 1.6f : cam.position;
+            Vector3 muzzle = origin + cam.forward * 0.5f;
+
             // Calculate spread BEFORE adding fire inaccuracy so first shot is accurate
             float spread = CalculateSpread();
             fireInaccuracy += weaponData.inaccuracyFire;
@@ -104,7 +109,7 @@ namespace CounterSiege
             direction.Normalize();
 
             // Raycast
-            if (Physics.Raycast(cam.position, direction, out RaycastHit hit, weaponData.range, ~(1 << 7), QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, weaponData.range, ~(1 << 7), QueryTriggerInteraction.Ignore))
             {
                 // Check hit target
                 var targetHealth = hit.collider.GetComponentInParent<PlayerHealth>();
@@ -117,9 +122,22 @@ namespace CounterSiege
                     );
                     targetHealth.TakeDamage(dmgInfo);
                 }
+                else
+                {
+                    // Any IDamageable on the hit object (Destructible, RubbleDestructible, future props)
+                    var damageable = hit.collider.GetComponentInParent<IDamageable>();
+                    if (damageable != null)
+                    {
+                        var dmgInfo = new DamageInfo(
+                            weaponData.damage, owner, HitZone.Chest,
+                            weaponData.weaponName, weaponData.armorPenetration
+                        );
+                        damageable.TakeDamage(dmgInfo);
+                    }
+                }
 
                 SpawnImpact(hit.point, hit.normal);
-                SpawnTracer(GetMuzzlePosition(), hit.point);
+                SpawnTracer(muzzle, hit.point);
 
                 // Impact sound
                 if (weaponData.impactSounds != null && weaponData.impactSounds.Length > 0 && AudioManager.Instance != null)
@@ -130,7 +148,7 @@ namespace CounterSiege
             }
             else
             {
-                SpawnTracer(GetMuzzlePosition(), cam.position + direction * weaponData.range);
+                SpawnTracer(muzzle, origin + direction * weaponData.range);
             }
 
             // Recoil

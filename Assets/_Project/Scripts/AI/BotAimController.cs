@@ -6,7 +6,7 @@ namespace CounterSiege
     {
         public BotDifficulty difficulty = BotDifficulty.Normal;
         public float aimSpeed = 6f;
-        public float aimInaccuracy = 0.3f;
+        public float aimInaccuracy = 0.5f;
 
         Vector3 aimOffset;
         float offsetChangeTimer;
@@ -26,15 +26,15 @@ namespace CounterSiege
             {
                 case BotDifficulty.Easy:
                     aimSpeed = 3f;
-                    aimInaccuracy = 0.6f;
+                    aimInaccuracy = 0.9f;
                     break;
                 case BotDifficulty.Normal:
                     aimSpeed = 6f;
-                    aimInaccuracy = 0.3f;
+                    aimInaccuracy = 0.5f;
                     break;
                 case BotDifficulty.Hard:
                     aimSpeed = 12f;
-                    aimInaccuracy = 0.1f;
+                    aimInaccuracy = 0.2f;
                     break;
             }
         }
@@ -54,7 +54,7 @@ namespace CounterSiege
 
             if (direction.sqrMagnitude > 0.001f)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.RotateTowards(
                     transform.rotation, targetRotation, aimSpeed * Time.deltaTime * 60f);
             }

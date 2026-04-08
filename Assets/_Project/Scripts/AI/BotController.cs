@@ -25,11 +25,20 @@ namespace CounterSiege
             sensors = GetComponent<BotSensors>();
             aimController = GetComponent<BotAimController>();
             stateMachine = new BotStateMachine(this);
+
+            // BotAimController owns facing; agent handles position only.
+            if (agent != null) agent.updateRotation = false;
         }
 
         void Start()
         {
             EventBus.OnRoundPhaseChanged += OnRoundPhaseChanged;
+
+            // Catch up: GameManager may have already fired the initial phase event
+            // before this bot's Start ran, leaving us stuck in BotIdleState.
+            var rm = GameManager.Instance?.roundManager;
+            if (rm != null && rm.currentPhase != RoundPhase.Warmup)
+                OnRoundPhaseChanged(rm.currentPhase);
         }
 
         void OnDestroy()
@@ -43,6 +52,20 @@ namespace CounterSiege
 
             sensors.UpdateSensors();
             stateMachine.Tick();
+
+            // Face direction of travel while moving. BotAimController takes
+            // over during combat (velocity ~ 0 while engaging), so these don't fight.
+            if (agent != null && agent.enabled && agent.velocity.sqrMagnitude > 0.05f)
+            {
+                Vector3 dir = agent.velocity;
+                dir.y = 0f;
+                if (dir.sqrMagnitude > 0.01f)
+                {
+                    var target = Quaternion.LookRotation(dir.normalized);
+                    transform.rotation = Quaternion.RotateTowards(
+                        transform.rotation, target, 540f * Time.deltaTime);
+                }
+            }
         }
 
         void OnRoundPhaseChanged(RoundPhase phase)

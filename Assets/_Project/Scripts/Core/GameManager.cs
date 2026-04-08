@@ -29,6 +29,9 @@ namespace CounterSiege
         public GameObject tModelPrefab;
         public RuntimeAnimatorController characterAnimController;
 
+        [Header("First Person")]
+        public Vector3 firstPersonModelOffset = new Vector3(0.15f, 0f, 0f);
+
         [HideInInspector] public TeamManager teamManager;
         [HideInInspector] public RoundManager roundManager;
         [HideInInspector] public EconomyManager economyManager;
@@ -128,6 +131,9 @@ namespace CounterSiege
             // Set up character model
             SetupCharacterModel(go, team);
 
+            // Hide player's own body except arms/gloves
+            HideLocalPlayerBody(go);
+
             // Initialize health
             var ph = go.GetComponent<PlayerHealth>();
             if (ph != null) ph.Initialize(team, "Player");
@@ -204,6 +210,19 @@ namespace CounterSiege
                     foreach (var col in model.GetComponentsInChildren<Collider>(true))
                         Destroy(col);
 
+                    // Tint terrorist team models beige (multiplies with existing texture)
+                    if (team == Team.Terrorist)
+                    {
+                        var tintColor = new Color(1.4f, 1.2f, 0.8f);
+                        foreach (var r in model.GetComponentsInChildren<Renderer>(true))
+                        {
+                            var block = new MaterialPropertyBlock();
+                            r.GetPropertyBlock(block);
+                            block.SetColor("_BaseColor", tintColor);
+                            r.SetPropertyBlock(block);
+                        }
+                    }
+
                     // Set up animation
                     var charAnim = go.GetComponent<CharacterAnimator>();
                     if (charAnim == null)
@@ -229,6 +248,27 @@ namespace CounterSiege
                     }
                 }
             }
+        }
+
+        void HideLocalPlayerBody(GameObject go)
+        {
+            var model = go.transform.Find("CharacterModel");
+            if (model == null) return;
+
+            // Hide everything except gloves so the local player doesn't see their own body.
+            var visibleParts = new System.Collections.Generic.HashSet<string>(
+                System.StringComparer.OrdinalIgnoreCase) { "Gloves" };
+
+            foreach (var r in model.GetComponentsInChildren<Renderer>(true))
+            {
+                if (visibleParts.Contains(r.gameObject.name))
+                    continue;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            }
+
+            // Offset the model so arms are centered in view
+            model.localPosition = new Vector3(0.35f, -0.2f, -0.1f);
+            model.localEulerAngles = new Vector3(-5f, 30f, 0f);
         }
 
         // Legacy fallback: builds player from code (used when no prefab is assigned)

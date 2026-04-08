@@ -22,17 +22,16 @@ namespace CounterSiege
         {
             if (bot.isFrozen) return;
 
-            // Check for enemies
+            // Drop into combat the moment a target enters our FOV.
             if (bot.Sensors.HasVisibleEnemies)
             {
                 bot.StopMoving();
-                // Transition to combat
                 var stateMachine = GetStateMachine();
                 stateMachine?.ChangeState(new BotCombatState(bot));
                 return;
             }
 
-            // Check if heard something
+            // Reroute toward gunshot we just heard.
             if (bot.Sensors.TryGetHeardPosition(out Vector3 heardPos))
             {
                 destination = heardPos;
@@ -40,7 +39,7 @@ namespace CounterSiege
                 bot.MoveTo(destination);
             }
 
-            // Check if should plant bomb (T with bomb at site)
+            // T with the bomb close to a site: switch into planting.
             if (bot.Health.team == Team.Terrorist && bot.Inventory.HasBomb)
             {
                 var sites = Object.FindObjectsByType<BombSite>(FindObjectsSortMode.None);
@@ -55,7 +54,7 @@ namespace CounterSiege
                 }
             }
 
-            // Check if should defuse (CT near planted bomb)
+            // CT close to a planted bomb: switch into defusing.
             if (bot.Health.team == Team.CounterTerrorist)
             {
                 var bombs = Object.FindObjectsByType<BombController>(FindObjectsSortMode.None);
@@ -71,7 +70,7 @@ namespace CounterSiege
                 }
             }
 
-            // Retarget if arrived or timer
+            // Pick a new destination if we've arrived or the timer expired.
             retargetTimer -= Time.deltaTime;
             if (retargetTimer <= 0 || (!hasDestination) ||
                 (hasDestination && Vector3.Distance(bot.transform.position, destination) < 2f))

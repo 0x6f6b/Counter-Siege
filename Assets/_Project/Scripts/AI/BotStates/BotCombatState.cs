@@ -4,8 +4,12 @@ namespace CounterSiege
 {
     public class BotCombatState : IBotState
     {
+        const float TargetMemoryDuration = 1.5f;
+
         BotController bot;
         GameObject target;
+        Vector3 lastKnownPos;
+        float lastSeenTime;
         float fireTimer;
         float strafeTimer;
         float strafeDir;
@@ -15,45 +19,63 @@ namespace CounterSiege
         public void Enter()
         {
             bot.StopMoving();
-            fireTimer = 0.3f; // Small reaction delay
-            strafeTimer = 0;
+            fireTimer = 0.3f;
+            strafeTimer = 0f;
+            lastSeenTime = Time.time;
         }
 
         public void Tick()
         {
-            target = bot.Sensors.GetClosestVisibleEnemy();
+            var visibleTarget = bot.Sensors.GetClosestVisibleEnemy();
 
-            if (target == null)
+            if (visibleTarget != null)
             {
-                // Lost target, go back to navigation
-                bot.stateMachine.ChangeState(new BotNavigateState(bot));
-                return;
+                target = visibleTarget;
+                lastKnownPos = target.transform.position + Vector3.up * 1.2f;
+                lastSeenTime = Time.time;
+            }
+            else
+            {
+                target = null;
+                if (Time.time - lastSeenTime > TargetMemoryDuration)
+                {
+                    bot.stateMachine.ChangeState(new BotNavigateState(bot));
+                    return;
+                }
             }
 
-            Vector3 targetPos = target.transform.position + Vector3.up * 1.2f;
+            Vector3 aimAt = target != null
+                ? target.transform.position + Vector3.up * 1.2f
+                : lastKnownPos;
 
-            // Aim at target
-            bot.AimController.AimAt(targetPos);
+            bot.AimController.AimAt(aimAt);
 
-            // Strafe
-            strafeTimer -= Time.deltaTime;
-            if (strafeTimer <= 0)
+            if (target != null)
             {
-                strafeTimer = Random.Range(0.5f, 1.5f);
-                strafeDir = Random.value > 0.5f ? 1f : -1f;
+                // Visible: strafe to make the bot harder to hit
+                strafeTimer -= Time.deltaTime;
+                if (strafeTimer <= 0)
+                {
+                    strafeTimer = Random.Range(0.5f, 1.5f);
+                    strafeDir = Random.value > 0.5f ? 1f : -1f;
+                }
+
+                Vector3 strafeMove = bot.transform.right * strafeDir * 2f + bot.transform.position;
+                bot.MoveTo(strafeMove);
+            }
+            else
+            {
+                // Lost sight: advance on last known position to flush them out
+                bot.MoveTo(lastKnownPos);
             }
 
-            Vector3 strafeMove = bot.transform.right * strafeDir * 2f + bot.transform.position;
-            bot.MoveTo(strafeMove);
-
-            // Fire when aimed
+            // Fire only when target currently visible AND aimed
             fireTimer -= Time.deltaTime;
-            if (fireTimer <= 0 && bot.AimController.IsAimedAt(targetPos, 15f))
+            if (target != null && fireTimer <= 0 && bot.AimController.IsAimedAt(aimAt, 15f))
             {
                 bot.FireWeapon();
                 fireTimer = 0.15f;
 
-                // Check if need reload
                 var weapon = bot.Inventory.CurrentWeapon;
                 if (weapon != null && weapon.CurrentAmmo == 0)
                     bot.ReloadWeapon();

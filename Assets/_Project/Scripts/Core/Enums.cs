@@ -4,9 +4,9 @@ namespace CounterSiege
 
     public enum RoundPhase { Warmup, FreezeTime, Live, PostRound }
 
-    public enum WeaponSlot { Melee, Pistol, Primary, Bomb }
+    public enum WeaponSlot { Melee, Pistol, Primary, Bomb, Grenade }
 
-    public enum WeaponType { Knife, Pistol, Rifle, Sniper }
+    public enum WeaponType { Knife, Pistol, Rifle, Sniper, Grenade }
 
     public enum HitZone { Head, Chest, Stomach, Legs }
 

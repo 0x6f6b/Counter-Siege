@@ -37,6 +37,7 @@ namespace CounterSiege
         public override void OnUnequip()
         {
             if (scopeLevel > 0) Unscope();
+            SetViewModelVisible(true);
             base.OnUnequip();
         }
 
@@ -98,6 +99,7 @@ namespace CounterSiege
             if (scopeSound != null && AudioManager.Instance != null)
                 AudioManager.Instance.PlaySFX2D(scopeSound, 0.3f);
 
+            SetViewModelVisible(false);
             EventBus.OnScopeChanged?.Invoke(true, level);
         }
 
@@ -114,7 +116,16 @@ namespace CounterSiege
             if (scopeSound != null && AudioManager.Instance != null)
                 AudioManager.Instance.PlaySFX2D(scopeSound, 0.3f);
 
+            SetViewModelVisible(true);
             EventBus.OnScopeChanged?.Invoke(false, 0);
+        }
+
+        // Toggle all renderers in the weapon's view model hierarchy so the
+        // rifle disappears while scoped (matches CS:GO AWP behaviour).
+        void SetViewModelVisible(bool visible)
+        {
+            var renderers = GetComponentsInChildren<Renderer>(true);
+            foreach (var r in renderers) r.enabled = visible;
         }
 
         void UpdateSensitivity(float currentFOV)

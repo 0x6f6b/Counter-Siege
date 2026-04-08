@@ -1,3 +1,11 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Bot sensors for vision (FOV plus raycast LOS) and hearing
+//          (gunshots in range). Should track visible enemies and remember
+//          where it last heard something."
+// Modifications: Wired hearing to EventBus.OnWeaponFired so only gunshots
+//                count, added the friendly-fire team check, masked the Player
+//                layer out of the LOS linecast.
+
 using System.Collections.Generic;
 using UnityEngine;
 
