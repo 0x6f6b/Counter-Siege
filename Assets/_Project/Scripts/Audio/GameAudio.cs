@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace CounterSiege
 {
-    /// <summary>
-    /// Event-driven audio for player sounds, bomb, and round announcements.
-    /// Place on the same GameObject as AudioManager.
-    /// </summary>
     public class GameAudio : MonoBehaviour
     {
         [Header("Player - Footsteps")]
@@ -135,8 +131,10 @@ namespace CounterSiege
         // Track previous health to detect damage
         int prevHealth = 100;
 
-        void OnHealthChanged(int health, int armor)
+        void OnHealthChanged(GameObject entity, int health, int armor)
         {
+            if (entity != localPlayer) return;
+
             if (health < prevHealth && health > 0 && localPlayer != null)
             {
                 // Took damage
@@ -171,7 +169,7 @@ namespace CounterSiege
             if (bombPlantSound != null)
                 AudioManager.Instance.PlaySFX2D(bombPlantSound, 0.4f);
             if (bombPlantedAnnounce != null)
-                AudioManager.Instance.PlaySFX2D(bombPlantedAnnounce, 0.5f);
+                AudioManager.Instance.PlaySFX2D(bombPlantedAnnounce, 1f);
         }
 
         void OnBombDefused(GameObject defuser)
@@ -180,7 +178,7 @@ namespace CounterSiege
             if (bombDefuseSound != null)
                 AudioManager.Instance.PlaySFX2D(bombDefuseSound, 0.4f);
             if (bombDefusedAnnounce != null)
-                AudioManager.Instance.PlaySFX2D(bombDefusedAnnounce, 0.5f);
+                AudioManager.Instance.PlaySFX2D(bombDefusedAnnounce, 1f);
         }
 
         void OnBombExploded()
@@ -194,13 +192,13 @@ namespace CounterSiege
             if (AudioManager.Instance == null) return;
             var clip = team == Team.CounterTerrorist ? ctWinSound : tWinSound;
             if (clip != null)
-                AudioManager.Instance.PlaySFX2D(clip, 0.5f);
+                AudioManager.Instance.PlaySFX2D(clip, 1f);
         }
 
         void OnRoundPhaseChanged(RoundPhase phase)
         {
             if (phase == RoundPhase.Live && roundStartSound != null && AudioManager.Instance != null)
-                AudioManager.Instance.PlaySFX2D(roundStartSound, 0.4f);
+                AudioManager.Instance.PlaySFX2D(roundStartSound, 1f);
         }
     }
 }

@@ -1,3 +1,8 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Audio manager singleton with a pool of AudioSources for 3D and 2D
+//          SFX and a master volume that saves between sessions."
+// Modifications: Added the dynamic pool extension when every source is busy.
+
 using System.Collections.Generic;
 using UnityEngine;
 

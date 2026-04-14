@@ -19,7 +19,6 @@ namespace CounterSiege.Editor
                 ak.reloadSound = Load<AudioClip>($"{AudioPath}/Weapons/AK47/ak47_clipin.wav");
                 ak.equipSound = Load<AudioClip>($"{AudioPath}/Weapons/AK47/ak47_draw.wav");
                 EditorUtility.SetDirty(ak);
-                Debug.Log("Wired AK-47 audio");
             }
 
             // M4A4
@@ -30,7 +29,6 @@ namespace CounterSiege.Editor
                 m4.reloadSound = Load<AudioClip>($"{AudioPath}/Weapons/M4A1/m4a1_clipin.wav");
                 m4.equipSound = Load<AudioClip>($"{AudioPath}/Weapons/M4A1/m4a1_draw.wav");
                 EditorUtility.SetDirty(m4);
-                Debug.Log("Wired M4A4 audio");
             }
 
             // Glock
@@ -41,7 +39,6 @@ namespace CounterSiege.Editor
                 glock.reloadSound = Load<AudioClip>($"{AudioPath}/Weapons/Glock/glock_clipin.wav");
                 glock.equipSound = Load<AudioClip>($"{AudioPath}/Weapons/Glock/glock_draw.wav");
                 EditorUtility.SetDirty(glock);
-                Debug.Log("Wired Glock audio");
             }
 
             // USP
@@ -52,7 +49,6 @@ namespace CounterSiege.Editor
                 usp.reloadSound = Load<AudioClip>($"{AudioPath}/Weapons/USP/usp_clipin.wav");
                 usp.equipSound = Load<AudioClip>($"{AudioPath}/Weapons/USP/usp_draw.wav");
                 EditorUtility.SetDirty(usp);
-                Debug.Log("Wired USP audio");
             }
 
             // AWP
@@ -63,7 +59,6 @@ namespace CounterSiege.Editor
                 awp.reloadSound = Load<AudioClip>($"{AudioPath}/Weapons/AWP/awp_clipin.wav");
                 awp.equipSound = Load<AudioClip>($"{AudioPath}/Weapons/AWP/awp_draw.wav");
                 EditorUtility.SetDirty(awp);
-                Debug.Log("Wired AWP audio");
             }
 
             // Knife
@@ -78,11 +73,9 @@ namespace CounterSiege.Editor
                     Load<AudioClip>($"{AudioPath}/Weapons/Knife/knife_stab.wav"),
                 };
                 EditorUtility.SetDirty(knife);
-                Debug.Log("Wired Knife audio");
             }
 
             AssetDatabase.SaveAssets();
-            Debug.Log("All weapon audio clips wired!");
         }
 
         [MenuItem("Counter Siege/Convert/Setup GameAudio in Scene")]
@@ -151,12 +144,12 @@ namespace CounterSiege.Editor
             gameAudio.bombExplodeSound = Load<AudioClip>($"{AudioPath}/Bomb/c4_explode1.wav");
             gameAudio.bombBeepSound = Load<AudioClip>($"{AudioPath}/Bomb/c4_beep1.wav");
 
-            // Round announcements
-            gameAudio.roundStartSound = Load<AudioClip>($"{AudioPath}/Radio/mm_success_lets_roll.wav");
-            gameAudio.ctWinSound = Load<AudioClip>($"{AudioPath}/Radio/ctwin.wav");
-            gameAudio.tWinSound = Load<AudioClip>($"{AudioPath}/Radio/terwin.wav");
-            gameAudio.bombPlantedAnnounce = Load<AudioClip>($"{AudioPath}/Radio/bombpl.wav");
-            gameAudio.bombDefusedAnnounce = Load<AudioClip>($"{AudioPath}/Radio/bombdef.wav");
+            // Round announcements: AI-generated voice lines (ElevenLabs).
+            gameAudio.roundStartSound = Load<AudioClip>($"{AudioPath}/Radio/mm_success_lets_roll.mp3");
+            gameAudio.ctWinSound = Load<AudioClip>($"{AudioPath}/Radio/ctwin.mp3");
+            gameAudio.tWinSound = Load<AudioClip>($"{AudioPath}/Radio/terwin.mp3");
+            gameAudio.bombPlantedAnnounce = Load<AudioClip>($"{AudioPath}/Radio/bombpl.mp3");
+            gameAudio.bombDefusedAnnounce = Load<AudioClip>($"{AudioPath}/Radio/bombdef.mp3");
 
             // UI
             gameAudio.buttonClickSound = Load<AudioClip>($"{AudioPath}/UI/buttonclick.wav");
@@ -164,8 +157,6 @@ namespace CounterSiege.Editor
             EditorUtility.SetDirty(gameAudio);
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-
-            Debug.Log("GameAudio setup complete with all clips wired!");
         }
 
         static T Load<T>(string path) where T : Object
