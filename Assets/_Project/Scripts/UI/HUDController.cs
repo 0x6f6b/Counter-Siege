@@ -53,11 +53,22 @@ namespace CounterSiege
         void Update()
         {
             var player = GameManager.Instance?.playerObject;
-            if (player != null && contextText != null)
+            if (player == null) return;
+
+            if (contextText != null)
             {
                 var interaction = player.GetComponent<PlayerInteraction>();
                 if (interaction != null)
                     contextText.text = interaction.contextPrompt;
+            }
+
+            // Continuously reflect bomb-carrier state, regardless of when the
+            // GiveBomb event fired relative to HUD subscription.
+            if (bombStatusText != null)
+            {
+                var inv = player.GetComponent<PlayerInventory>();
+                if (inv != null && inv.HasBomb && string.IsNullOrEmpty(bombStatusText.text))
+                    bombStatusText.text = "⚠ YOU HAVE THE BOMB";
             }
         }
 

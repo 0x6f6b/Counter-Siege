@@ -7,7 +7,7 @@ namespace CounterSiege
     {
         public Transform weaponHolder;
 
-        WeaponBase[] weapons = new WeaponBase[4]; // Melee, Pistol, Primary, Bomb
+        WeaponBase[] weapons = new WeaponBase[5]; // Melee, Pistol, Primary, Bomb, Grenade
         int currentSlot = -1;
         bool hasBomb;
 
@@ -56,11 +56,6 @@ namespace CounterSiege
         {
             ClearWeapons();
 
-            // Give knife
-            var knifeData = FindWeaponData("Knife");
-            if (knifeData != null) AddWeapon(knifeData);
-
-            // Give team pistol
             string pistolName = team == Team.Terrorist ? "Glock" : "USP";
             var pistolData = FindWeaponData(pistolName);
             if (pistolData != null) AddWeapon(pistolData);
@@ -88,6 +83,9 @@ namespace CounterSiege
                 case WeaponType.Sniper:
                     weapon = weaponGO.AddComponent<SniperRifle>();
                     break;
+                case WeaponType.Grenade:
+                    weapon = weaponGO.AddComponent<Grenade>();
+                    break;
                 default:
                     weapon = weaponGO.AddComponent<GunBase>();
                     break;
@@ -105,12 +103,23 @@ namespace CounterSiege
             EventBus.OnWeaponPickedUp?.Invoke(gameObject, data);
         }
 
+        Transform GetRightHandBone()
+        {
+            var model = transform.Find("CharacterModel");
+            if (model == null) return null;
+            var animator = model.GetComponentInChildren<Animator>();
+            if (animator == null || !animator.isHuman) return null;
+            return animator.GetBoneTransform(HumanBodyBones.RightHand);
+        }
+
         GameObject CreateViewModel(WeaponData data)
         {
             // Use 3D model prefab if available
             if (data.viewModelPrefab != null)
             {
-                var instance = Instantiate(data.viewModelPrefab, weaponHolder);
+                // Parent to hand bone if character model exists, otherwise fall back to weaponHolder
+                Transform parent = GetRightHandBone() ?? weaponHolder;
+                var instance = Instantiate(data.viewModelPrefab, parent);
                 instance.name = data.weaponName + "_ViewModel";
                 SetViewModelLayerRecursive(instance);
                 RemoveCollidersRecursive(instance);
@@ -229,6 +238,21 @@ namespace CounterSiege
             }
         }
 
+        // Single-use weapons (grenades) call this to remove themselves after firing.
+        public void ConsumeCurrentWeapon()
+        {
+            if (currentSlot < 0 || weapons[currentSlot] == null) return;
+            int slot = currentSlot;
+            var weapon = weapons[slot];
+            weapons[slot] = null;
+            Destroy(weapon.gameObject);
+            currentSlot = -1;
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                if (weapons[i] != null) { SwitchToSlot(i); return; }
+            }
+        }
+
         public void DropAllWeapons()
         {
             for (int i = weapons.Length - 1; i >= 0; i--)
@@ -242,6 +266,9 @@ namespace CounterSiege
         {
             if (!hasBomb) return null;
             hasBomb = false;
+            // Clear HUD indicator if local player drops the bomb
+            if (GameManager.Instance != null && gameObject == GameManager.Instance.playerObject)
+                EventBus.OnBombStateChanged?.Invoke("");
 
             Vector3 pos = transform.position + Vector3.down * 0.5f;
             var bombGO = new GameObject("Bomb");
@@ -267,6 +294,9 @@ namespace CounterSiege
         public void GiveBomb()
         {
             hasBomb = true;
+            // Show HUD indicator only for the local human player
+            if (GameManager.Instance != null && gameObject == GameManager.Instance.playerObject)
+                EventBus.OnBombStateChanged?.Invoke("⚠ YOU HAVE THE BOMB");
         }
 
         public void ClearWeapons()
@@ -295,6 +325,7 @@ namespace CounterSiege
         public void OnAttack(InputAction.CallbackContext ctx)
         {
             if (!ctx.performed) return;
+            if (IsUiBlockingInput()) return;
             if (currentSlot >= 0 && weapons[currentSlot] != null)
             {
                 if (weapons[currentSlot].weaponData.isAutomatic) return; // handled in AttackHeld
@@ -304,14 +335,24 @@ namespace CounterSiege
 
         public void AttackHeld()
         {
+            if (IsUiBlockingInput()) return;
             if (currentSlot >= 0 && weapons[currentSlot] != null && weapons[currentSlot].weaponData.isAutomatic)
                 weapons[currentSlot].PrimaryFire();
         }
 
         public void OnSecondaryFire(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed && currentSlot >= 0 && weapons[currentSlot] != null)
+            if (!ctx.performed) return;
+            if (IsUiBlockingInput()) return;
+            if (currentSlot >= 0 && weapons[currentSlot] != null)
                 weapons[currentSlot].SecondaryFire();
+        }
+
+        // Suppress fire input while a blocking UI panel (e.g. buy menu) is open.
+        static bool IsUiBlockingInput()
+        {
+            var hud = HUDController.Instance;
+            return hud != null && hud.buyMenu != null && hud.buyMenu.IsOpen;
         }
 
         public void OnReload(InputAction.CallbackContext ctx)
@@ -329,6 +370,7 @@ namespace CounterSiege
         public void OnSlot2(InputAction.CallbackContext ctx) { if (ctx.performed) SwitchToSlot(1); }
         public void OnSlot3(InputAction.CallbackContext ctx) { if (ctx.performed) SwitchToSlot(2); }
         public void OnSlot4(InputAction.CallbackContext ctx) { if (ctx.performed) SwitchToSlot(3); }
+        public void OnSlot5(InputAction.CallbackContext ctx) { if (ctx.performed) SwitchToSlot(4); }
 
         public void OnScrollWeapon(InputAction.CallbackContext ctx)
         {

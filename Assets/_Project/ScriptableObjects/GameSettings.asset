@@ -19,7 +19,7 @@ MonoBehaviour:
   buyTime: 20
   postRoundTime: 5
   warmupTime: 5
-  startMoney: 800
+  startMoney: 8000
   maxMoney: 16000
   winReward: 3250
   lossBase: 1400

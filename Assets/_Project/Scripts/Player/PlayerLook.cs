@@ -1,3 +1,8 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Implement first-person mouse look with sensitivity control, pitch clamping,
+//          recoil offset with automatic recovery, and cursor lock management."
+// Modifications: Added aim sensitivity multiplier for scope zoom, separated camera holder
+//                rotation from body rotation for proper FPS camera behavior.
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +21,15 @@ namespace CounterSiege
         [Header("Recoil Recovery")]
         public float recoilRecoverySpeed = 5f;
 
+        [Header("Hit Kick")]
+        public float hitKickMagnitude = 0.06f;
+        public float hitKickRecoverSpeed = 12f;
+        public float hitKickMaxOffset = 0.15f;
+
         Transform cameraHolder;
+        Transform mainCamera;
+        Vector3 mainCameraBasePos;
+        Vector3 hitKickOffset;
         float xRotation;
         float yRotation;
         Vector2 recoilOffset;
@@ -26,6 +39,15 @@ namespace CounterSiege
         void Awake()
         {
             cameraHolder = transform.Find("CameraHolder");
+            if (cameraHolder != null)
+            {
+                var cam = cameraHolder.GetComponentInChildren<Camera>();
+                if (cam != null)
+                {
+                    mainCamera = cam.transform;
+                    mainCameraBasePos = mainCamera.localPosition;
+                }
+            }
         }
 
         void Start()
@@ -36,7 +58,31 @@ namespace CounterSiege
         void Update()
         {
             RecoverRecoil();
+            RecoverHitKick();
             ApplyRotation();
+            ApplyHitKickPosition();
+        }
+
+        void RecoverHitKick()
+        {
+            if (hitKickOffset.sqrMagnitude > 0.00001f)
+                hitKickOffset = Vector3.Lerp(hitKickOffset, Vector3.zero, hitKickRecoverSpeed * Time.deltaTime);
+            else
+                hitKickOffset = Vector3.zero;
+        }
+
+        void ApplyHitKickPosition()
+        {
+            if (mainCamera != null)
+                mainCamera.localPosition = mainCameraBasePos + hitKickOffset;
+        }
+
+        public void AddHitKick(float magnitudeMultiplier = 1f)
+        {
+            // Camera-only back kick; cameraHolder (raycast origin) is untouched
+            // so aim and crosshair stay accurate.
+            hitKickOffset += Vector3.back * hitKickMagnitude * magnitudeMultiplier;
+            hitKickOffset = Vector3.ClampMagnitude(hitKickOffset, hitKickMaxOffset);
         }
 
         void RecoverRecoil()

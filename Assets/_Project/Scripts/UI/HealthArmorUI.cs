@@ -18,8 +18,10 @@ namespace CounterSiege
             EventBus.OnHealthChanged -= UpdateDisplay;
         }
 
-        void UpdateDisplay(int health, int armor)
+        void UpdateDisplay(GameObject entity, int health, int armor)
         {
+            if (entity != GameManager.Instance?.playerObject) return;
+
             if (healthText != null)
                 healthText.text = health.ToString();
             if (armorText != null)

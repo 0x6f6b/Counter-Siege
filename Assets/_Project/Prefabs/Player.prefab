@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 2696904037749248753}
   - component: {fileID: 7535298812118206752}
   - component: {fileID: 4865938712247488545}
+  - component: {fileID: 5912882437914090413}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -378,15 +379,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735a980450aedb64fa92d1310b4ba669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.PlayerController
-  walkSpeed: 7
-  sprintSpeed: 9
-  crouchSpeed: 3.5
-  airControlMultiplier: 0.5
-  jumpForce: 5
-  gravity: -20
+  maxSpeed: 6.94
+  walkSpeedCap: 3.61
+  crouchSpeedCap: 2.36
+  groundAccelerate: 5.5
+  airAccelerate: 12
+  friction: 4
+  stopSpeed: 2.22
+  airSpeedCap: 0.83
+  jumpSpeed: 8.39
+  sourceGravity: 22.22
   standHeight: 2
   crouchHeight: 1.2
-  crouchTransitionSpeed: 10
+  crouchTransitionTime: 0.4
+  landingPenaltyThreshold: 9.72
+  landingPenaltyMultiplier: 0.5
+  bhopSpeedTolerance: 1.1
   groundCheckRadius: 0.3
   groundCheckOffset: 0.1
   groundMask:
@@ -411,6 +419,9 @@ MonoBehaviour:
   minPitch: -89
   maxPitch: 89
   recoilRecoverySpeed: 5
+  hitKickMagnitude: 0.06
+  hitKickRecoverSpeed: 12
+  hitKickMaxOffset: 0.15
 --- !u!114 &3082421099430492872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,3 +496,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa89cdc5cfa8fe541b758eb943f9633a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.PlayerInputHandler
+--- !u!114 &5912882437914090413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8792071722423329973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a82af26fd646494896a2455e3329ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CounterSiege.Flashlight
+  intensity: 4
+  range: 30
+  spotAngle: 55
+  innerSpotAngle: 30
+  color: {r: 1, g: 0.97, b: 0.85, a: 1}
+  startOn: 0
+  localOffset: {x: 0, y: -0.05, z: 0.1}

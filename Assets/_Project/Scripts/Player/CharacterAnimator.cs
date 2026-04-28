@@ -3,10 +3,8 @@ using UnityEngine.AI;
 
 namespace CounterSiege
 {
-    /// <summary>
-    /// Drives Animator parameters from movement and weapon state.
-    /// Works with both CharacterController (player) and NavMeshAgent (bots).
-    /// </summary>
+    // Drives Animator parameters from movement and weapon state.
+    // Works with both CharacterController (player) and NavMeshAgent (bots).
     public class CharacterAnimator : MonoBehaviour
     {
         [Header("References")]
@@ -102,17 +100,29 @@ namespace CounterSiege
                 reloading = gun.IsReloading;
             animator.SetBool(IsReloadingHash, reloading);
 
-            // Weapon type (0=Knife, 1=Pistol, 2=Rifle, 3=Sniper)
-            int weaponType = 2; // Default to rifle
+            // 0=Knife, 1=Pistol, 2=Rifle, 3=Sniper. Grenades remap to Pistol
+            // because the animator controller has no Grenade state.
+            int weaponType = 2;
             if (inventory != null && inventory.CurrentWeapon != null && inventory.CurrentWeapon.weaponData != null)
-                weaponType = (int)inventory.CurrentWeapon.weaponData.weaponType;
+            {
+                var wt = inventory.CurrentWeapon.weaponData.weaponType;
+                weaponType = wt == WeaponType.Grenade ? 1 : (int)wt;
+            }
             animator.SetInteger(WeaponTypeHash, weaponType);
         }
 
         void OnWeaponFired(GameObject shooter, Vector3 position)
         {
             if (shooter == gameObject && animator != null)
+            {
+                // Skip fire animation for pistols
+                if (inventory != null && inventory.CurrentWeapon != null &&
+                    inventory.CurrentWeapon.weaponData != null &&
+                    inventory.CurrentWeapon.weaponData.weaponType == WeaponType.Pistol)
+                    return;
+
                 animator.SetTrigger(FireHash);
+            }
         }
     }
 }

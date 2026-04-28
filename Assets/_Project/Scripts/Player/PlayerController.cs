@@ -111,7 +111,7 @@ namespace CounterSiege
                     verticalVelocity = jumpSpeed;
                     isGrounded = false; // treat as airborne this frame
                 }
-                wantsJump = false; // always consume — no queuing
+                wantsJump = false; // always consume, no queuing
             }
 
             if (isGrounded)
@@ -214,7 +214,7 @@ namespace CounterSiege
 
             if (addSpeed <= 0f) return;
 
-            // Use FULL (uncapped) wishspeed for acceleration rate — this is what makes air strafing work
+            // Uncapped wishspeed in the accel rate is what enables air strafing.
             float accelSpeed = Mathf.Min(accel * wishSpeed * dt, addSpeed);
             horizontalVelocity += accelSpeed * wishDir;
         }
@@ -256,7 +256,6 @@ namespace CounterSiege
             }
             else if (isCrouching)
             {
-                // Check if we can uncrouch
                 if (CanUncrouch())
                     isCrouching = false;
             }
@@ -316,11 +315,8 @@ namespace CounterSiege
             if (ctx.canceled) isWalking = false;
         }
 
-        // --- Public properties (backward compatible) ---
-
         public bool IsGrounded => isGrounded;
         public bool IsCrouching => isCrouching;
-        // IsSprinting = running at full speed (not walking) — maps to loud/fast footsteps
         public bool IsSprinting => !isWalking && !isCrouching;
         public bool IsMoving => moveInput.sqrMagnitude > 0.01f;
         public float CurrentSpeed => cc.velocity.magnitude;
