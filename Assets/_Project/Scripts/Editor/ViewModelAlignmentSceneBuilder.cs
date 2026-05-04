@@ -65,7 +65,7 @@ namespace CounterSiege.Editor
             holderGO.transform.SetParent(eyePointGO.transform);
             holderGO.transform.localPosition = new Vector3(0.3f, -0.2f, 0.5f);
 
-            // Main camera — 3rd person orbit (positioned to see character upper body + weapon)
+            // 3rd-person orbit camera framing the character upper body + weapon.
             var camGO = new GameObject("MainCamera");
             camGO.tag = "MainCamera";
             var cam = camGO.AddComponent<Camera>();

@@ -2,11 +2,9 @@ using UnityEngine;
 
 namespace CounterSiege
 {
-    /// <summary>
-    /// Lightweight manager for the weapon testing scene.
-    /// Spawns the player with every weapon, target dummies, and infinite reserve ammo.
-    /// No bots, rounds, economy, or match logic.
-    /// </summary>
+    // Manager for the weapon testing scene: spawns the player with every
+    // weapon, target dummies, and infinite reserve ammo. No bots, rounds, or
+    // match logic.
     public class WeaponPlayground : MonoBehaviour
     {
         [Header("References")]
@@ -346,8 +344,5 @@ namespace CounterSiege
         }
     }
 
-    /// <summary>
-    /// Simple component to mark target dummies for tracking/resetting.
-    /// </summary>
     public class Target : MonoBehaviour { }
 }

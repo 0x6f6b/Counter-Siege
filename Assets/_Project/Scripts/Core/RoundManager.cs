@@ -1,3 +1,8 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Implement CS:GO-style round management with freeze time, live phase, post-round,
+//          bomb plant/defuse tracking, elimination checks, and half-time side swaps."
+// Modifications: Added buy time window detection, bomb cleanup between rounds,
+//                weapon pickup cleanup, and match-end win condition checks.
 using UnityEngine;
 
 namespace CounterSiege

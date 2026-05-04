@@ -14,6 +14,7 @@ namespace CounterSiege
         int currentIndex;
         int currentAnim; // 0=idle, 1=walk, 2=run
         Animator characterAnimator;
+        Transform rightHandBone;
         Camera mainCam;
 
         // Orbit camera state
@@ -43,6 +44,9 @@ namespace CounterSiege
                 {
                     characterAnimator.applyRootMotion = false;
                     characterAnimator.SetBool("IsGrounded", true);
+
+                    // Find the right hand bone for weapon parenting
+                    rightHandBone = characterAnimator.GetBoneTransform(HumanBodyBones.RightHand);
                 }
             }
 
@@ -182,7 +186,9 @@ namespace CounterSiege
                 Destroy(currentInstance);
 
             currentIndex = index;
-            currentInstance = Instantiate(weaponPrefabs[index], weaponHolder);
+            // Parent to right hand bone so weapon follows animations
+            Transform parent = rightHandBone != null ? rightHandBone : weaponHolder;
+            currentInstance = Instantiate(weaponPrefabs[index], parent);
             currentInstance.name = weaponPrefabs[index].name;
 
             // Remove colliders
@@ -207,6 +213,8 @@ namespace CounterSiege
                 return 1; // Pistol
             if (lower.Contains("awp"))
                 return 3; // Sniper
+            if (lower.Contains("frag") || lower.Contains("grenade"))
+                return 1; // Pistol pose for grenades
             if (lower.Contains("knife"))
                 return 0; // Knife
             return 2; // Rifle (AK47, M4A4, etc.)

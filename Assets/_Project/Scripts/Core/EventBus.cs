@@ -1,3 +1,8 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Create a static event bus for decoupled communication between game systems
+//          including round phases, combat events, economy, bomb state, and UI updates."
+// Modifications: Added scope change events, ammo/health changed events, weapon
+//                pickup/drop events, and bomb timer tick for HUD integration.
 using System;
 using UnityEngine;
 
@@ -19,7 +24,7 @@ namespace CounterSiege
         public static Action<GameObject, WeaponData> OnWeaponPickedUp;
         public static Action<GameObject, WeaponData> OnWeaponDropped;
         public static Action<int, int> OnAmmoChanged; // magazine, reserve
-        public static Action<int, int> OnHealthChanged; // health, armor
+        public static Action<GameObject, int, int> OnHealthChanged; // entity, health, armor
         public static Action<string> OnBombStateChanged;
         public static Action<float> OnBombTimerTick;
         public static Action<bool, int> OnScopeChanged; // scoped, level (0=none, 1=first, 2=second)

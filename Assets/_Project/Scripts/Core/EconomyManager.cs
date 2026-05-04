@@ -1,3 +1,8 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Create a CS:GO-style economy manager that tracks per-player money, awards
+//          win/loss bonuses with escalating loss streaks, and resets economy between halves."
+// Modifications: Integrated with PlayerEconomy component for per-player money tracking,
+//                added configurable loss bonus scaling from GameSettings.
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +24,7 @@ namespace CounterSiege
             players.Add(player);
             var eco = player.GetComponent<PlayerEconomy>();
             if (eco != null)
-                eco.SetMoney(GameManager.Instance?.settings?.startMoney ?? 800);
+                eco.SetMoney(GameManager.Instance?.settings?.startMoney ?? 8000);
         }
 
         public void AwardRoundEnd(Team winner)
@@ -56,7 +61,7 @@ namespace CounterSiege
             foreach (var p in players)
             {
                 var eco = p.GetComponent<PlayerEconomy>();
-                if (eco != null) eco.SetMoney(GameManager.Instance?.settings?.startMoney ?? 800);
+                if (eco != null) eco.SetMoney(GameManager.Instance?.settings?.startMoney ?? 8000);
             }
         }
     }

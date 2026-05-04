@@ -15,7 +15,7 @@ namespace CounterSiege
         public float warmupTime = 5f;
 
         [Header("Economy")]
-        public int startMoney = 800;
+        public int startMoney = 8000;
         public int maxMoney = 16000;
         public int winReward = 3250;
         public int lossBase = 1400;

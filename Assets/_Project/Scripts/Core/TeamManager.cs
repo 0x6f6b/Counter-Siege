@@ -1,3 +1,8 @@
+// AI Tool: Anthropic Claude Opus 4.6 (Claude Code CLI)
+// Prompt: "Create a team manager that handles T/CT team rosters, spawn point assignment,
+//          alive player counting, half-time side swaps, and bomb carrier selection."
+// Modifications: Added round-robin spawn index cycling, fallback spawn positions,
+//                and team reference updates on side swap.
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -107,15 +112,22 @@ namespace CounterSiege
         public void AssignBombCarrier()
         {
             var aliveTs = new List<GameObject>();
+            GameObject humanCarrier = null;
             foreach (var p in terrorists)
             {
                 var ph = p.GetComponent<PlayerHealth>();
-                if (ph != null && !ph.isDead) aliveTs.Add(p);
+                if (ph != null && !ph.isDead)
+                {
+                    aliveTs.Add(p);
+                    // Human player has no BotController
+                    if (p.GetComponent<BotController>() == null) humanCarrier = p;
+                }
             }
 
             if (aliveTs.Count == 0) return;
 
-            var carrier = aliveTs[Random.Range(0, aliveTs.Count)];
+            // Always give the bomb to the human player if they're on T.
+            var carrier = humanCarrier ?? aliveTs[Random.Range(0, aliveTs.Count)];
             var inv = carrier.GetComponent<PlayerInventory>();
             if (inv != null) inv.GiveBomb();
         }

@@ -15,7 +15,7 @@ namespace CounterSiege.Editor
             var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
             scene.name = "WeaponPlayground";
 
-            // Remove default directional light (we'll make our own)
+            // Remove default directional light; a custom one is set up below.
             var defaultLight = GameObject.Find("Directional Light");
             if (defaultLight != null) Object.DestroyImmediate(defaultLight);
 
@@ -130,9 +130,8 @@ namespace CounterSiege.Editor
 
             Undo.RegisterCreatedObjectUndo(managerObj, "Create WeaponPlayground manager");
 
-            // ── Weapon pickups along the side wall (so player can swap weapons) ──
-            // These are created at runtime by WeaponPlayground, but let's add
-            // static labels so the player knows where to go.
+            // Weapon pickup labels. The pickups themselves are spawned at
+            // runtime by WeaponPlayground; static labels mark where they go.
 
             // ── Save scene ──
             EditorSceneManager.MarkSceneDirty(scene);
