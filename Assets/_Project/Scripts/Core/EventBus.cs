@@ -23,7 +23,7 @@ namespace CounterSiege
         public static Action<Team> OnMatchWon;
         public static Action<GameObject, WeaponData> OnWeaponPickedUp;
         public static Action<GameObject, WeaponData> OnWeaponDropped;
-        public static Action<int, int> OnAmmoChanged; // magazine, reserve
+        public static Action<GameObject, int, int> OnAmmoChanged; // owner, magazine, reserve
         public static Action<GameObject, int, int> OnHealthChanged; // entity, health, armor
         public static Action<string> OnBombStateChanged;
         public static Action<float> OnBombTimerTick;

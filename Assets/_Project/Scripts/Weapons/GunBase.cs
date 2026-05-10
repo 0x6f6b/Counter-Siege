@@ -304,7 +304,7 @@ namespace CounterSiege
 
         void UpdateAmmoUI()
         {
-            EventBus.OnAmmoChanged?.Invoke(currentAmmo, currentReserve);
+            EventBus.OnAmmoChanged?.Invoke(owner, currentAmmo, currentReserve);
         }
 
         public void RefillReserve()
