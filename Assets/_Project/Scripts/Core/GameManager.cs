@@ -55,6 +55,8 @@ namespace CounterSiege
             if (hudPrefab != null && HUDController.Instance == null)
                 Instantiate(hudPrefab);
 
+            gameObject.AddComponent<EscapeMenuUI>();
+
             InitializeMatch();
         }
 
