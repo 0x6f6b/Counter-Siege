@@ -32,7 +32,10 @@ namespace CounterSiege
 
         void Awake()
         {
-            if (Instance != null) { Destroy(gameObject); return; }
+            // Newest wins: a scene-loaded AudioManager usually carries scene-specific
+            // sibling components (e.g. GameAudio with footstep clips wired). If we kept
+            // the prior instance, Destroy(gameObject) here would also kill those siblings.
+            if (Instance != null && Instance != this) Destroy(Instance.gameObject);
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
